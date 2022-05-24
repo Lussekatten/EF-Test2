@@ -9,7 +9,9 @@ namespace EF_test_01.Models
     public class Person
     {
         public Person()
-        { }
+        { 
+        
+        }
         public Person(int id, string name, string phone, string city)
         {
             Id = id;
