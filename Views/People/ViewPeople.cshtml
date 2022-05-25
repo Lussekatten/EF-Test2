@@ -16,17 +16,7 @@
     </tr>
     @foreach (var item in Model.PeopleList)
     {
-        <tr>
-            <td>@item.Name</td>
-            <td>@item.PhoneNumber</td>
-            <td>@item.City</td>
-            <td>
-                <form asp-controller="People" asp-action="RemovePerson" method="post">
-                    <input type="hidden" name="id" value="@item.Id" />
-                    <button type="submit" class="btn btn-danger">Radera</button>
-                </form>
-            </td>
-        </tr>
+        <partial name="~/Views/Shared/_PersonTableRowPartial.cshtml" model="new Person(item.Id,item.Name,item.PhoneNumber,item.City)" />
     }
 </table>
 <hr />

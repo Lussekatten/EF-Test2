@@ -1,0 +1,8 @@
+﻿@model Person
+
+<tr>
+    <td>@Model.Name</td>
+    <td>@Model.PhoneNumber</td>
+    <td>@Model.City</td>
+    <td><a asp-action="RemovePerson" asp-route-id="@Model.Id">Ta bort</a></td>
+</tr>
