@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,30 +11,27 @@ namespace EF_test_01.Models
     {
         public Person()
         { }
-        public Person(int id, string name, string phone, string city)
+        public Person(int id, string name, string phone, int cityid)
         {
             Id = id;
             Name = name;
             PhoneNumber = phone;
-            City = city;
-            FluentInLanguages = new List<Language>();
+            CityId = cityid;           
         }
 
-        [Key]
+ 
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Du måste ange ett namn")]
-        [Display(Name = "Förnamn och eftrnamn: ")]
+        [Required(ErrorMessage = "Name is missing")]
+        [Display(Name = "Full name: ")]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "Du måste ange ett telefon nummer")]
-        [Display(Name = "Telefon nr: ")]
+        [Required(ErrorMessage = "Phone number is missing")]
+        [Display(Name = "Phone no: ")]
         public string PhoneNumber { get; set; }
+     
+        public City City { get; set; }
+        public int CityId { get; set; }
 
-        [Required(ErrorMessage = "Du måste ange en stad")]
-        [Display(Name = "Stad")]
-        public string City { get; set; }
-
-        public List<Language> FluentInLanguages { get; set; }
     }
 }

@@ -3,19 +3,18 @@
 <form asp-controller="People" asp-action="AddPerson" method="post" role="form">
     
     <div class="mb-3">
-        <label asp-for="Name" class="form-label"></label>
+        <label asp-for="Name" class="form-label">Name: </label>
         <input asp-for="Name" type="text" class="form-control" id="name" />
         <span asp-validation-for="Name" class="text-danger"></span>
     </div>
     <div class="mb-3">
-        <label asp-for="PhoneNumber" class="form-label"></label>
+        <label asp-for="PhoneNumber" class="form-label">Phone: </label>
         <input asp-for="PhoneNumber" type="text" class="form-control" id="phone" />
         <span asp-validation-for="PhoneNumber" class="text-danger"></span>
     </div>
     <div class="mb-3">
-        <label asp-for="City" class="form-label"></label>
-        <input asp-for="City" type="text" class="form-control" id="city" />
-        <span asp-validation-for="City" class="text-danger"></span>
+        <label asp-for="City.Name" class="form-label">City: </label>
+        <select name="cityId" class="form-control" asp-items="ViewBag.CityNames"></select>
     </div>
-    <button type="submit" class="btn btn-primary">Lägg till</button>
+    <button type="submit" class="btn btn-primary">Create</button>
 </form>
