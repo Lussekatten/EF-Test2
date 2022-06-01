@@ -16,9 +16,26 @@ namespace EF_test_01.Data
         public DbSet<Person> People { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<Country> Countries { get; set; }
+        public DbSet<Language> Languages { get; set; }
+        public DbSet<PersonLanguage> PersonLanguages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder mb)
         {
+            //Define the composite key in the join table
+            mb.Entity<PersonLanguage>().HasKey(sc => new { sc.PersonId, sc.LanguageId });
+
+            mb.Entity<PersonLanguage>()
+            .HasOne<Person>(sc => sc.Person)
+            .WithMany(s => s.PersonLanguage)
+            .HasForeignKey(sc => sc.PersonId);
+
+
+            mb.Entity<PersonLanguage>()
+            .HasOne<Language>(sc => sc.Langauge)
+            .WithMany(s => s.PersonLanguage)
+            .HasForeignKey(sc => sc.LanguageId);
+            //------------------------------------------------------------------------
+
             //Seeding countries
             mb.Entity<Country>().HasData(new Country(1,"Romania"));
             mb.Entity<Country>().HasData(new Country(2,"Polen"));         
@@ -45,6 +62,18 @@ namespace EF_test_01.Data
             mb.Entity<Person>().HasData(new Person(5, "Helena Danielsson", "567 890", 2));
             mb.Entity<Person>().HasData(new Person(6, "Maria Persson", "678 901", 2));
 
+            //Seeding languages before seeding PersonLanguages
+            mb.Entity<Language>().HasData(new Language(1, "Romanian"));
+            mb.Entity<Language>().HasData(new Language(2, "French"));
+            mb.Entity<Language>().HasData(new Language(3, "German"));
+            mb.Entity<Language>().HasData(new Language(4, "Swedish"));
+            mb.Entity<Language>().HasData(new Language(5, "English"));
+
+            //Seeding PersonLanguages
+            mb.Entity<PersonLanguage>().HasData(new PersonLanguage(2, 1));
+            mb.Entity<PersonLanguage>().HasData(new PersonLanguage(2, 2));
+            mb.Entity<PersonLanguage>().HasData(new PersonLanguage(2, 3));
+            
         }
     }
 }

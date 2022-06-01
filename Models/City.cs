@@ -22,7 +22,7 @@ namespace EF_test_01.Models
         }
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Du måste ange stadens namn")]
+        [Required(ErrorMessage = "City name is missing")]
         [Display(Name = "City name")]
         public string Name { get; set; }
         public List<Person> Residents { get; set; }

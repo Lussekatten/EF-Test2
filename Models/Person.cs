@@ -33,5 +33,7 @@ namespace EF_test_01.Models
         public City City { get; set; }
         public int CityId { get; set; }
 
+        public IList<PersonLanguage> PersonLanguage { get; set; }
+
     }
 }
