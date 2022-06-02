@@ -20,6 +20,7 @@ namespace EF_test_01.Models
             Name = name;
             Residents = new List<Person>();
         }
+
         public int Id { get; set; }
 
         [Required(ErrorMessage = "City name is missing")]

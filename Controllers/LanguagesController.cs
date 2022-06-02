@@ -1,4 +1,5 @@
 ﻿using EF_test_01.Data;
+using EF_test_01.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,25 @@ namespace EF_test_01.Controllers
             var languages = _context.Languages.ToList();
             return View(languages);
         }
-        
+
+        public IActionResult Create()
+        {           
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Create( Language lang)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(lang);
+                _context.SaveChanges();         
+            }
+            else
+            {
+                ViewBag.ErrMessage = "Model state invalid for some reason. Language not added";
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
     }
 }

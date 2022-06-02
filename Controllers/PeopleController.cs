@@ -33,18 +33,41 @@ namespace EF_test_01.Controllers
             return View(m);
         }
 
+        public IActionResult IsSpeaking()
+        {
+            ViewBag.People = new SelectList(_context.People, "Id", "Name");
+            ViewBag.Languages = new SelectList(_context.Languages, "Id", "Name");
+           
+            return View();
+        }
+        [HttpPost]
+        public IActionResult IsSpeaking(int personId, int languageId)
+        {
+            if (personId > 0 && languageId > 0)
+            {
+            PersonLanguage m = new PersonLanguage();
+                m.PersonId = personId;
+                m.LanguageId = languageId;
+                _context.PersonLanguages.Add(m);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(IsSpeaking));
+            }
+
+            return View();
+        }
 
         [HttpPost]
         public IActionResult AddPerson(Person p, int cityId)
         {
             p.CityId = cityId;
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && cityId > 0)
             {
                 _context.People.Add(p);
                 _context.SaveChanges();
-
+                return RedirectToAction(nameof(ViewPeople));
             }
-            return RedirectToAction(nameof(ViewPeople));
+            ViewBag.CityNames = new SelectList(_context.Cities, "Id", "Name");
+            return View(p);
         }
 
         [HttpPost]
@@ -79,7 +102,7 @@ namespace EF_test_01.Controllers
             }
             else
             {
-                //Redirect so that we read the full datalist
+                //Redirect without filtering
                 return RedirectToAction(nameof(ViewPeople));
             }
         }

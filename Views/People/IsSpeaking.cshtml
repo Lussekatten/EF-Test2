@@ -1,0 +1,16 @@
+﻿
+
+<form asp-controller="People" asp-action="IsSpeaking" method="post" role="form">
+    @Html.AntiForgeryToken()
+    <div class="mb-3">
+        <label class="form-label">People: </label>
+        <select name="personId" class="form-control" asp-items="ViewBag.People">
+        </select>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Languages: </label>
+        <select name="languageId" class="form-control" asp-items="ViewBag.Languages">
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Save connection</button>
+</form>

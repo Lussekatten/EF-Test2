@@ -31,6 +31,8 @@ namespace EF_test_01.Models
         public string PhoneNumber { get; set; }
      
         public City City { get; set; }
+
+        [Required(ErrorMessage = "A city must be selected")]
         public int CityId { get; set; }
 
         public IList<PersonLanguage> PersonLanguage { get; set; }

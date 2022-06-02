@@ -22,7 +22,7 @@ namespace EF_test_01.Models
         [Required]
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Name of the language is missing")]
         public string Name { get; set; }
         public IList<PersonLanguage> PersonLanguage { get; set; }
 
