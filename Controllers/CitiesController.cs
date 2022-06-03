@@ -20,23 +20,23 @@ namespace EF_test_01.Controllers
         }
 
         // GET: Cities
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             var applicationDBContext = _context.Cities.Include(c => c.Country);
-            return View(await applicationDBContext.ToListAsync());
+            return View(applicationDBContext.ToList());
         }
 
         // GET: Cities/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var city = await _context.Cities
+            var city = _context.Cities
                 .Include(c => c.Country)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefault(m => m.Id == id);
             if (city == null)
             {
                 return NotFound();
@@ -52,19 +52,15 @@ namespace EF_test_01.Controllers
             return View();
         }
 
-        // POST: Cities/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,CountryId")] City city)
+        public IActionResult Create(City city)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
                     _context.Add(city);
-                    await _context.SaveChangesAsync();
+                    _context.SaveChanges();
                     return RedirectToAction(nameof(Index));
                 }
             }
@@ -78,14 +74,14 @@ namespace EF_test_01.Controllers
         }
 
         // GET: Cities/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var city = await _context.Cities.FindAsync(id);
+            var city = _context.Cities.Find(id);
             if (city == null)
             {
                 return NotFound();
@@ -96,7 +92,7 @@ namespace EF_test_01.Controllers
 
         // POST: Cities/Edit/5
         [HttpPost]
-        public async Task<IActionResult> Edit(int id, City city)
+        public IActionResult Edit(int id, City city)
         {
             if (id != city.Id)
             {
@@ -105,22 +101,8 @@ namespace EF_test_01.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(city);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CityExists(city.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                _context.Update(city);
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CountryId"] = new SelectList(_context.Countries, "Id", "Name", city.CountryId);
@@ -128,16 +110,16 @@ namespace EF_test_01.Controllers
         }
 
         // GET: Cities/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var city = await _context.Cities
+            var city = _context.Cities
                 .Include(c => c.Country)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefault(m => m.Id == id);
             if (city == null)
             {
                 return NotFound();
@@ -148,12 +130,11 @@ namespace EF_test_01.Controllers
 
         // POST: Cities/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            var city = await _context.Cities.FindAsync(id);
+            var city = _context.Cities.Find(id);
             _context.Cities.Remove(city);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
 

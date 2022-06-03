@@ -3,6 +3,7 @@ using EF_test_01.Models;
 using EF_test_01.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,25 +36,41 @@ namespace EF_test_01.Controllers
 
         public IActionResult IsSpeaking()
         {
+            var m = new IsSpeaking();
             ViewBag.People = new SelectList(_context.People, "Id", "Name");
             ViewBag.Languages = new SelectList(_context.Languages, "Id", "Name");
-           
-            return View();
+            //Select all people with respective language. The model becomes a list of people
+            //var personAndLanguage = _context.People.Include(p => p.PersonLanguage).ThenInclude(pl=>pl.Langauge).ToList();
+
+            //Or using a projection
+            var personAndLanguage = _context.People.Select(p => new { Person = p, Languages = p.PersonLanguage.Select(pl => pl.Langauge) });
+            ViewBag.PoL = personAndLanguage;
+
+            return View(personAndLanguage);
         }
         [HttpPost]
         public IActionResult IsSpeaking(int personId, int languageId)
         {
             if (personId > 0 && languageId > 0)
             {
-            PersonLanguage m = new PersonLanguage();
-                m.PersonId = personId;
-                m.LanguageId = languageId;
-                _context.PersonLanguages.Add(m);
-                _context.SaveChanges();
-                return RedirectToAction(nameof(IsSpeaking));
+                //If the language already exists items will return a row. Don't save. Duplicate key error!
+                var items = _context.PersonLanguages.Where(p => p.PersonId == personId && p.LanguageId == languageId).ToList();
+                if (items.Count == 0)
+                {
+                    PersonLanguage m = new PersonLanguage();
+                    m.PersonId = personId;
+                    m.LanguageId = languageId;
+                    _context.PersonLanguages.Add(m);
+                    _context.SaveChanges();
+                    ViewBag.Message = "";
+                }
+                else
+                {
+                    ViewBag.Message = "Language already known by this person";
+                }
             }
 
-            return View();
+            return RedirectToAction(nameof(IsSpeaking));
         }
 
         [HttpPost]
