@@ -9,10 +9,18 @@
         {
             <tr>
                 <td>@item.Name</td>
-                <td>
-                    Speaks: @foreach (var lang in Model.PersonLanguage)
-                    { lang.Language}
-                    </td>
+                @{
+                    string languages = "";
+                    foreach (var lang in @item.PersonLanguage)
+                    {
+                        languages = languages + lang.Langauge.Name + ", ";
+                    }
+                    if (languages.Length > 0)
+                    {
+                        languages = languages.Substring(0, languages.Length - 2);
+                    }
+                }
+                <td>Speaks: @languages </td>
             </tr>
         }
     </table>

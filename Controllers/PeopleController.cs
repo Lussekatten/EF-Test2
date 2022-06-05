@@ -36,15 +36,14 @@ namespace EF_test_01.Controllers
 
         public IActionResult IsSpeaking()
         {
-            var m = new IsSpeaking();
+            var m = new IsSpeakingViewModel();
             ViewBag.People = new SelectList(_context.People, "Id", "Name");
             ViewBag.Languages = new SelectList(_context.Languages, "Id", "Name");
             //Select all people with respective language. The model becomes a list of people
-            //var personAndLanguage = _context.People.Include(p => p.PersonLanguage).ThenInclude(pl=>pl.Langauge).ToList();
+            var personAndLanguage = _context.People.Include(p => p.PersonLanguage).ThenInclude(pl=>pl.Langauge).ToList();
 
             //Or using a projection
-            var personAndLanguage = _context.People.Select(p => new { Person = p, Languages = p.PersonLanguage.Select(pl => pl.Langauge) });
-            ViewBag.PoL = personAndLanguage;
+            //var personAndLanguage = _context.People.Select(p => new { Person = p, Languages = p.PersonLanguage.Select(pl => pl.Langauge) });
 
             return View(personAndLanguage);
         }
@@ -64,10 +63,10 @@ namespace EF_test_01.Controllers
                     _context.SaveChanges();
                     ViewBag.Message = "";
                 }
-                else
-                {
-                    ViewBag.Message = "Language already known by this person";
-                }
+                //else
+                //{
+                //    ViewBag.Message = "Language already known by this person";
+                //}
             }
 
             return RedirectToAction(nameof(IsSpeaking));

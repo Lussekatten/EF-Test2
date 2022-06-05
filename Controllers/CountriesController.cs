@@ -22,7 +22,7 @@ namespace EF_test_01.Controllers
         // GET: Countries
         public IActionResult Index()
         {
-            return View(_context.Countries.ToList());
+            return View(_context.Countries.Include(p => p.Cities).ToList());
         }
 
         // GET: Countries/Details/5
