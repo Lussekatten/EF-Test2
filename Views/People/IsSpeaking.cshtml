@@ -1,30 +1,38 @@
 ﻿@model IEnumerable<Person>
 
-    <table class=" table table-striped">
-        <tr>
-            <th>Name</th>
-            <th>Languages</th>
-        </tr>
-        @foreach (var item in Model)
-        {
+<div class="Wrapper">
+    <div class="FullWidth50" id="first">
+        <table class=" table table-striped">
             <tr>
-                <td>@item.Name</td>
-                @{
-                    string languages = "";
-                    foreach (var lang in @item.PersonLanguage)
-                    {
-                        languages = languages + lang.Langauge.Name + ", ";
-                    }
-                    if (languages.Length > 0)
-                    {
-                        languages = languages.Substring(0, languages.Length - 2);
-                    }
-                }
-                <td>Speaks: @languages </td>
+                <th>Name</th>
+                <th>Languages</th>
             </tr>
-        }
-    </table>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    @{
+                        string languages = "";
+                        foreach (var lang in @item.PersonLanguage)
+                        {
+                            languages = languages + lang.Langauge.Name + ", ";
+                        }
+                        if (languages.Length > 0)
+                        {
+                            languages = languages.Substring(0, languages.Length - 2);
+                        }
+                    }
+                    <td>Speaks: @languages </td>
+                </tr>
+            }
+        </table>
+    </div>
 
+    <div id="spacer">
+        &nbsp;
+    </div>
+
+    <div class="FullWidth50" id="second">
         <form asp-controller="People" asp-action="IsSpeaking" method="post" role="form">
             @Html.AntiForgeryToken()
             <div class="mb-3">
@@ -42,3 +50,29 @@
             </div>
             <button type="submit" class="btn btn-primary">Save connection</button>
         </form>
+    </div>
+</div>
+<div id="spacer">
+    &nbsp;
+</div>
+
+<div class="FullWidth50" id="second">
+    <form asp-controller="People" asp-action="DeleteLanguageConnection" method="post" role="form">
+        @Html.AntiForgeryToken()
+        <div class="mb-3">
+            <label class="form-label">People: </label>
+            <select name="personId" class="form-control" asp-items="ViewBag.People">
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Languages: </label>
+            <select name="languageId" class="form-control" asp-items="ViewBag.Languages">
+            </select>
+        </div>
+        <div class="mb-3">
+            <span class="text-danger">@ViewBag.Message</span>
+        </div>
+        <button type="submit" class="btn btn-danger">Remove connection</button>
+    </form>
+</div>
+        

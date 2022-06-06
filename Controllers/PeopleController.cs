@@ -36,7 +36,6 @@ namespace EF_test_01.Controllers
 
         public IActionResult IsSpeaking()
         {
-            var m = new IsSpeakingViewModel();
             ViewBag.People = new SelectList(_context.People, "Id", "Name");
             ViewBag.Languages = new SelectList(_context.Languages, "Id", "Name");
             //Select all people with respective language. The model becomes a list of people
@@ -72,6 +71,24 @@ namespace EF_test_01.Controllers
             return RedirectToAction(nameof(IsSpeaking));
         }
 
+        [HttpPost]
+        public IActionResult DeleteLanguageConnection(int personId, int languageId)
+        {
+            if (personId > 0 && languageId > 0)
+            {
+                
+                {
+                    PersonLanguage m = new PersonLanguage();
+                    m.PersonId = personId;
+                    m.LanguageId = languageId;
+                    _context.PersonLanguages.Remove(m);
+                    _context.SaveChanges();
+
+                }
+            }
+
+            return RedirectToAction(nameof(IsSpeaking));
+        }
         [HttpPost]
         public IActionResult AddPerson(Person p, int cityId)
         {

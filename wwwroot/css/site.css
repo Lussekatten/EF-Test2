@@ -22,3 +22,35 @@ th {
 td{
     padding: 3px 1px 1px 3px;
 }
+
+.Wrapper {
+    width: 100%;
+    /*border: 1px solid black;
+    overflow: hidden; /* will contain if #first is longer than #second */
+}
+
+#first {
+    width: 60%;
+    float: left; /* add this */
+    /*border: 1px solid red;*/
+}
+
+#spacer {
+    width: 20px;
+    /*border: 1px solid blue;*/
+    float: left;
+}
+
+#second {
+    /*border: 1px solid green;*/
+    width: auto;
+    float: left;
+}
+
+.FullWidth50 {
+    float: left;
+    /* border-width: 1px;
+    border-style: solid;
+    border-color: rebeccapurple;*/
+}
+
