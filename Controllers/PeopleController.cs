@@ -62,10 +62,6 @@ namespace EF_test_01.Controllers
                     _context.SaveChanges();
                     ViewBag.Message = "";
                 }
-                //else
-                //{
-                //    ViewBag.Message = "Language already known by this person";
-                //}
             }
 
             return RedirectToAction(nameof(IsSpeaking));
@@ -76,14 +72,19 @@ namespace EF_test_01.Controllers
         {
             if (personId > 0 && languageId > 0)
             {
-                
+                //Remove only if this pair of keys exists
+                //Added AsNoTracking() to prevent errors at runtime.
+                var items = _context.PersonLanguages.AsNoTracking().Where(p => p.PersonId == personId && p.LanguageId == languageId).ToList();
+                if (items.Count == 1)
                 {
-                    PersonLanguage m = new PersonLanguage();
-                    m.PersonId = personId;
-                    m.LanguageId = languageId;
-                    _context.PersonLanguages.Remove(m);
-                    _context.SaveChanges();
+                    {
+                        PersonLanguage m = new PersonLanguage();
+                        m.PersonId = personId;
+                        m.LanguageId = languageId;
+                        _context.PersonLanguages.Remove(m);
+                        _context.SaveChanges();
 
+                    }
                 }
             }
 
