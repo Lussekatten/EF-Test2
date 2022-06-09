@@ -1,4 +1,6 @@
 ﻿using EF_test_01.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace EF_test_01.Data
 {
-    public class ApplicationDBContext : DbContext
+    public class ApplicationDBContext : IdentityDbContext<ApplicationUser>
     {
         //public ApplicationDBContext()
         //{ }
@@ -19,8 +21,13 @@ namespace EF_test_01.Data
         public DbSet<Language> Languages { get; set; }
         public DbSet<PersonLanguage> PersonLanguages { get; set; }
 
+        public DbSet<ApplicationUser> Users { get; set; }
+
         protected override void OnModelCreating(ModelBuilder mb)
         {
+            //Identity needs this line
+            base.OnModelCreating(mb);
+
             //Define the composite key in the join table
             mb.Entity<PersonLanguage>().HasKey(sc => new { sc.PersonId, sc.LanguageId });
 
@@ -73,7 +80,48 @@ namespace EF_test_01.Data
             mb.Entity<PersonLanguage>().HasData(new PersonLanguage(2, 1));
             mb.Entity<PersonLanguage>().HasData(new PersonLanguage(2, 2));
             mb.Entity<PersonLanguage>().HasData(new PersonLanguage(2, 3));
-            
+
+            //Crete Guid for user, role and user role
+            string roleId1 = Guid.NewGuid().ToString();
+            string roleId2 = Guid.NewGuid().ToString();
+            string userId = Guid.NewGuid().ToString();
+
+            //Seeding roles
+            mb.Entity<IdentityRole>().HasData(new IdentityRole 
+            {
+                Id=roleId1,
+                Name="Admin",
+                NormalizedName="ADMIN",
+            });
+            mb.Entity<IdentityRole>().HasData(new IdentityRole
+            {
+                Id = roleId2,
+                Name = "User",
+                NormalizedName = "USER",
+            });
+
+            //Create an admin user so we can do stuff unrestricted
+            //But first use the password hasher
+            PasswordHasher<ApplicationUser> ph = new PasswordHasher<ApplicationUser>();
+            mb.Entity<ApplicationUser>().HasData(new ApplicationUser
+            {
+                Id = userId,
+                Email="admin@admin.com",
+                NormalizedEmail="ADMIN@ADMIN.COM",
+                UserName="Admin@admin.com",
+                NormalizedUserName= "ADMIN@ADMIN.COM",
+                FirstName="Admin",
+                LastName="Adminsson",
+                DateOfBirth=DateTime.Now,
+                PasswordHash = ph.HashPassword(null,"xxx")
+            });
+
+            mb.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
+            {
+                UserId= userId,
+                RoleId=roleId1
+            });
+
         }
     }
 }

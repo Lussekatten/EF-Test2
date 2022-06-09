@@ -4,14 +4,16 @@ using EF_test_01.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EF_test_01.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220608114829_Identity-added")]
+    partial class Identityadded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,21 +33,12 @@ namespace EF_test_01.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -91,27 +84,6 @@ namespace EF_test_01.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "5c83c8e2-e74d-419f-9bf0-9692702409e0",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "50ae1f77-03a4-49df-b5c6-cee9b7d07c8f",
-                            DateOfBirth = new DateTime(2022, 6, 8, 16, 48, 33, 385, DateTimeKind.Local).AddTicks(3627),
-                            Email = "admin@admin.com",
-                            EmailConfirmed = false,
-                            FirstName = "Admin",
-                            LastName = "Adminsson",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "ADMIN@ADMIN.COM",
-                            NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEK+DKjHq3oMYTKQ8ENUvvbbkphXhnKT8n1Re68AzMeG8o8RqbxoCJ+kzux9FJQgt9w==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "3fae05e3-4349-47de-8e00-e7488cee6da3",
-                            TwoFactorEnabled = false,
-                            UserName = "Admin@admin.com"
-                        });
                 });
 
             modelBuilder.Entity("EF_test_01.Models.City", b =>
@@ -392,22 +364,6 @@ namespace EF_test_01.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "542db827-0bb2-4abe-bad4-4baee3b986ea",
-                            ConcurrencyStamp = "124c3e8e-16f0-4971-a892-2e36c1f272a6",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = "afd222d5-461e-4c42-b8f0-dd12c3b19271",
-                            ConcurrencyStamp = "c9c36d79-d8ae-467e-9e69-5df8c20a62c1",
-                            Name = "User",
-                            NormalizedName = "USER"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -493,13 +449,6 @@ namespace EF_test_01.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "5c83c8e2-e74d-419f-9bf0-9692702409e0",
-                            RoleId = "542db827-0bb2-4abe-bad4-4baee3b986ea"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>

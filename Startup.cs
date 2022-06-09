@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using EF_test_01.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace EF_test_01
 {
@@ -38,6 +39,11 @@ namespace EF_test_01
             services.AddDbContext<ApplicationDBContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddIdentity<ApplicationUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
+                .AddDefaultUI()
+                .AddDefaultTokenProviders()
+                .AddEntityFrameworkStores<ApplicationDBContext>();
+
             services.AddControllersWithViews();
         }
 
@@ -61,6 +67,10 @@ namespace EF_test_01
 
             app.UseRouting();
 
+            //For identity
+            app.UseAuthentication();
+            app.UseAuthorization();
+
             //The order of middleware is important. Call UseSession after UseRouting and before UseEndpoints.
             app.UseSession();
 
@@ -73,6 +83,7 @@ namespace EF_test_01
                     name: "default",
                     pattern: "{Controller=Home}/{Action=Index}/{id?}");
 
+                endpoints.MapRazorPages();
             });
 
 
