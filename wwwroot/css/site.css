@@ -47,6 +47,12 @@ td{
     float: left;
 }
 
+#single {
+    width: 30%;
+    float: left; /* add this */
+    /*border: 1px solid red;*/
+}
+
 .FullWidth50 {
     float: left;
     /* border-width: 1px;

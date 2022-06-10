@@ -1,21 +1,25 @@
 ﻿@model Person
 
-<form asp-controller="People" asp-action="AddPerson" method="post" role="form">
-    @Html.AntiForgeryToken()
-    <div class="mb-3">
-        <label asp-for="Name" class="form-label">Name: </label>
-        <input asp-for="Name" type="text" class="form-control" id="name" />
-        <span asp-validation-for="Name" class="text-danger"></span>
+<div class="Wrapper">
+    <div class="FullWidth50" id="single">
+        <form asp-controller="People" asp-action="AddPerson" method="post" role="form">
+            @Html.AntiForgeryToken()
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label">Name: </label>
+                <input asp-for="Name" type="text" class="form-control" id="name" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="PhoneNumber" class="form-label">Phone: </label>
+                <input asp-for="PhoneNumber" type="text" class="form-control" id="phone" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="City.Name" class="form-label">City: </label>
+                <select name="cityId" class="form-control" asp-items="ViewBag.CityNames">
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Create</button>
+        </form>
     </div>
-    <div class="mb-3">
-        <label asp-for="PhoneNumber" class="form-label">Phone: </label>
-        <input asp-for="PhoneNumber" type="text" class="form-control" id="phone" />
-        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-    </div>
-    <div class="mb-3">
-        <label asp-for="City.Name" class="form-label">City: </label>
-        <select name="cityId" class="form-control" asp-items="ViewBag.CityNames">
-        </select>
-    </div>
-    <button type="submit" class="btn btn-primary">Create</button>
-</form>
+</div>

@@ -23,12 +23,12 @@ namespace EF_test_01.Controllers
         public IActionResult ViewPeople()
         {
             ViewBag.CityNames = new SelectList(_context.Cities,"Id", "Name");
-            List<Person> people = _context.People.ToList();
+            List<Person> people = _context.People.Include(c=>c.City).ToList();
             //Get the city names using the Ids
-            foreach (var item in people)
-            {
-                item.City = _context.Cities.Find(item.CityId);
-            }
+            //foreach (var item in people)
+            //{
+            //    item.City = _context.Cities.Find(item.CityId);
+            //}
             PeopleViewModel m = new PeopleViewModel();
             m.PeopleList = people;
             return View(m);
@@ -90,6 +90,7 @@ namespace EF_test_01.Controllers
 
             return RedirectToAction(nameof(IsSpeaking));
         }
+
         [HttpPost]
         public IActionResult AddPerson(Person p, int cityId)
         {
@@ -123,7 +124,7 @@ namespace EF_test_01.Controllers
         {
             if (!String.IsNullOrEmpty(m.SearchText))
             {
-                var result = _context.People.Where(q => (q.Name)
+                var result = _context.People.Include(c=>c.City).Where(q => (q.Name)
                     .ToLower()
                     .Contains(m.SearchText.ToLower()))
                     .ToList();

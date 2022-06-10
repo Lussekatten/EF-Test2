@@ -47,18 +47,8 @@ namespace WebProject.Controllers
         }
 
         public IActionResult ConnectUserToRole()
-        {
-            
+        {          
             ViewBag.Users = new SelectList(_userManager.Users, "Id", "UserName");
-            //var normalUsers = await _userManager.GetUsersInRoleAsync("user");
-            //var adminUsers = await _userManager.GetUsersInRoleAsync("admin");
-            ////IList<ApplicationUser> completeUSerList = new List<ApplicationUser>();
-            //foreach (var item in normalUsers)
-            //{
-            //    adminUsers.Add(item);
-            //}
-            //ViewBag.Users = new SelectList(adminUsers, "Id", "Name");
-            //var listOfRoles = _roleManager.Roles.ToList();
             ViewBag.Roles = new SelectList(_roleManager.Roles, "Name", "Name");
             return View();
         }

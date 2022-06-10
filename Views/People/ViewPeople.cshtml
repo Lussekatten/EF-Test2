@@ -21,11 +21,14 @@
             <td>@item.PhoneNumber</td>
             <td>@item.City.Name</td>
             <td>
-                <form asp-controller="People" asp-action="RemovePerson" method="post">
-                    <input type="hidden" name="id" value="@item.Id" />
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                </form>
-            </td>
+                @if (User.IsInRole("Admin"))
+                {
+                    <form asp-controller="People" asp-action="RemovePerson" method="post">
+                        <input type="hidden" name="id" value="@item.Id" />
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                 }
+                </td>
         </tr>
     }
 </table>
