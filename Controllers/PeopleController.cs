@@ -1,6 +1,7 @@
 ﻿using EF_test_01.Data;
 using EF_test_01.Models;
 using EF_test_01.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -34,6 +35,7 @@ namespace EF_test_01.Controllers
             return View(m);
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult IsSpeaking()
         {
             ViewBag.People = new SelectList(_context.People, "Id", "Name");
@@ -46,6 +48,8 @@ namespace EF_test_01.Controllers
 
             return View(personAndLanguage);
         }
+
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult IsSpeaking(int personId, int languageId)
         {
@@ -67,6 +71,7 @@ namespace EF_test_01.Controllers
             return RedirectToAction(nameof(IsSpeaking));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult DeleteLanguageConnection(int personId, int languageId)
         {
@@ -105,6 +110,7 @@ namespace EF_test_01.Controllers
             return View(p);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult RemovePerson(int id)
         {
