@@ -69,9 +69,11 @@ namespace EF_test_01.Areas.Identity.Pages.Account
             [Required(ErrorMessage = "Last name is missing")]
             [Display(Name = "Last name")]
             public string LastName { get; set; }
+
             [Required(ErrorMessage = "Date of birth is missing")]
-            [Display(Name = "Date of birth")]
-            public DateTime DateOfBirth { get; set; } = DateTime.Now;
+            [Display(Name = "Date of birth", Prompt = "ÅÅ-MM-DD")]          
+            [DataType(DataType.Date)]
+            public DateTime DateOfBirth { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -86,7 +88,7 @@ namespace EF_test_01.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, FirstName=Input.FirstName, LastName = Input.LastName, DateOfBirth=Input.DateOfBirth };
+                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, FirstName = Input.FirstName, LastName = Input.LastName, DateOfBirth = Input.DateOfBirth };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

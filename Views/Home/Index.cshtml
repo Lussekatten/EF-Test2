@@ -1,1 +1,18 @@
 ﻿<h2>Index page - The starting point</h2>
+
+@if (!User.Identity.IsAuthenticated)
+            {
+                <p>You are not logged in</p>
+}
+else
+{
+    @if (User.IsInRole("Admin"))
+    {
+        <p>Welcome Boss</p>
+    }
+    else
+    {
+        <p>Welcome ...you</p>
+    }
+
+}

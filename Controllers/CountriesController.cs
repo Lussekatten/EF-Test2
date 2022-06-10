@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EF_test_01.Data;
 using EF_test_01.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EF_test_01.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CountriesController : Controller
     {
         private readonly ApplicationDBContext _context;
