@@ -108,7 +108,7 @@ namespace EF_test_01.Data
                 Id = userId,
                 Email="admin@admin.com",
                 NormalizedEmail="ADMIN@ADMIN.COM",
-                UserName="Admin@admin.com",
+                UserName="admin@admin.com",
                 NormalizedUserName= "ADMIN@ADMIN.COM",
                 FirstName="Admin",
                 LastName="Adminsson",

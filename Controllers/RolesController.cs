@@ -25,8 +25,6 @@ namespace WebProject.Controllers
 
         public IActionResult Index()
         {
-            //var listOfUsers = _userManager.Users.ToList();
-            //ViewBag.Users = new SelectList(_userManager.Users, "Id", "UserName");
             var listOfRoles = _roleManager.Roles.ToList();
             ViewBag.Roles = new SelectList(_roleManager.Roles, "Id", "Name");           
             return View(_roleManager.Roles);
@@ -48,13 +46,34 @@ namespace WebProject.Controllers
             return View();
         }
 
+        public IActionResult ConnectUserToRole()
+        {
+            
+            ViewBag.Users = new SelectList(_userManager.Users, "Id", "UserName");
+            //var normalUsers = await _userManager.GetUsersInRoleAsync("user");
+            //var adminUsers = await _userManager.GetUsersInRoleAsync("admin");
+            ////IList<ApplicationUser> completeUSerList = new List<ApplicationUser>();
+            //foreach (var item in normalUsers)
+            //{
+            //    adminUsers.Add(item);
+            //}
+            //ViewBag.Users = new SelectList(adminUsers, "Id", "Name");
+            //var listOfRoles = _roleManager.Roles.ToList();
+            ViewBag.Roles = new SelectList(_roleManager.Roles, "Name", "Name");
+            return View();
+        }
+
         [HttpPost]
         public async Task<IActionResult> ConnectUserToRole(string userId, string roleId)
         {
-            var _user = await _userManager.FindByIdAsync(userId);
-            await _userManager.AddToRoleAsync(_user, roleId);
-
-            return RedirectToAction("Index");
+            var user = await _userManager.FindByIdAsync(userId);
+            
+            IdentityResult result = await _userManager.AddToRoleAsync(user, roleId);
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Index");
+            }
+            return View();
         }
     }
 }
