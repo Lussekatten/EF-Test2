@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace EF_test_01.Controllers
 {
+    [Authorize]
     public class PeopleController : Controller
     {
         private readonly ApplicationDBContext _context;
